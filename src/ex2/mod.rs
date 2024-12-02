@@ -10,33 +10,34 @@ fn difference(x: u32,y:u32) -> u32 {
 }
 
 fn check_line(numbers: &Vec<u32>) -> bool {
-    let mut mode = 0;
-    // 0: no checked; 1: increasing; 2: decreasing
+    enum Mode {
+        Increasing,
+        Decreasing,
+        Unknown
+    }
+
+    let mut mode = Mode::Unknown;
     for idx in 1..(numbers.len()) {
         let current = numbers[idx];
         let previous = numbers[idx - 1];
         if current > previous {
-            if mode == 0 {
-                mode = 1;
-            } else if mode == 2 {
-                // line not safe
-                return false;
+            // Increasing
+            match mode {
+                Mode::Unknown => mode = Mode::Increasing,
+                Mode::Decreasing => return false,
+                _ => {}
             }
         } else if current < previous {
-            if mode == 0 {
-                mode = 2;
-            } else if mode == 1 {
-                // line not safe
-                return false;
+            // Decreasing
+            match mode {
+                Mode::Unknown => mode = Mode::Decreasing,
+                Mode::Increasing => return false,
+                _ => {}
             }
         }
 
         let difference = difference(current, previous);
-        if difference < 1 {
-            // line not safe
-            return false;
-        } else if difference > 3 {
-            // line not safe
+        if difference < 1 || difference > 3 {
             return false;
         }
     }
