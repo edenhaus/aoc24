@@ -8,7 +8,7 @@ fn abs(x: i64) -> i64 {
     }
 }
 
-pub fn ex1() {
+pub fn run() {
     let words: Vec<&str> = input().split_whitespace().collect();
     let mut left: Vec<i64> = Vec::new();
     let mut right: Vec<i64> = Vec::new();
