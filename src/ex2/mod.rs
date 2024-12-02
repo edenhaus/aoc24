@@ -1,3 +1,5 @@
+use super::common::Report;
+
 
 const INPUT: &'static str = include_str!("input.txt");
 
@@ -44,7 +46,7 @@ fn check_line(numbers: &Vec<u32>) -> bool {
     true
 }
 
-pub fn solve(input: &str)-> (u32, u32) {
+pub fn solve(input: &str)-> Report<u32, u32> {
     let lines: Vec<&str> = input.lines().collect();
     let mut safe_lines_first:u32 = 0;
     let mut safe_lines_second:u32 = 0;
@@ -67,13 +69,12 @@ pub fn solve(input: &str)-> (u32, u32) {
         }
     }
 
-    (safe_lines_first, safe_lines_first+safe_lines_second)
+    Report{exercise:2, first:safe_lines_first, second:safe_lines_first+safe_lines_second}
 }
 
 
 pub fn run() {
-    let result = solve(&INPUT);
-    println!("Result ex2: first: {:?} second: {:?}", result.0, result.1);
+    println!("{}",solve(&INPUT));
 }
 
 
@@ -89,15 +90,15 @@ mod tests {
 1 3 2 4 5
 8 6 4 4 1
 1 3 6 7 9";
-        let (first, second) = solve(input);
-        assert_eq!(first, 2);
-        assert_eq!(second, 4);
+        let report = solve(input);
+        assert_eq!(report.first, 2);
+        assert_eq!(report.second, 4);
     }
 
     #[test]
     fn challenge() {
-        let (first, second) = solve(&INPUT);
-        assert_eq!(first, 549);
-        assert_eq!(second, 589);
+        let report = solve(&INPUT);
+        assert_eq!(report.first, 549);
+        assert_eq!(report.second, 589);
     }
 }

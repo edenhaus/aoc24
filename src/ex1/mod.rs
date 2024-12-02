@@ -1,4 +1,5 @@
 use std::collections::HashMap;
+use super::common::Report;
 
 const INPUT: &'static str = include_str!("input.txt");
 
@@ -10,7 +11,7 @@ fn abs(x: i64) -> i64 {
     }
 }
 
-pub fn solve(input: &str)-> (i64, i64) {
+pub fn solve(input: &str)-> Report<i64, i64> {
     let words: Vec<&str> = input.split_whitespace().collect();
     let mut left: Vec<i64> = Vec::new();
     let mut right: Vec<i64> = Vec::new();
@@ -46,13 +47,16 @@ pub fn solve(input: &str)-> (i64, i64) {
             similarity_score += value*map_count[value];
         }
     }
-    (sum, similarity_score)
+    Report {
+        exercise: 1,
+        first: sum,
+        second: similarity_score
+    }
 }
 
 
 pub fn run() {
-    let (sum, similarity) = solve(&INPUT);
-    println!("Result ex1: sum: {:?} similarity: {:?}", sum, similarity);
+    println!("{}",solve(&INPUT));
 }
 
 #[cfg(test)]
@@ -67,15 +71,15 @@ mod tests {
 1   3
 3   9
 3   3";
-        let (sum, similarity) = solve(input);
-        assert_eq!(sum, 11);
-        assert_eq!(similarity, 31);
+        let report = solve(input);
+        assert_eq!(report.first, 11);
+        assert_eq!(report.second, 31);
     }
 
     #[test]
     fn challenge() {
-        let (sum, similarity) = solve(&INPUT);
-        assert_eq!(sum, 1151792);
-        assert_eq!(similarity, 21790168);
+        let report = solve(&INPUT);
+        assert_eq!(report.first, 1151792);
+        assert_eq!(report.second, 21790168);
     }
 }
