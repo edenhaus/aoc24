@@ -166,7 +166,7 @@ fn second(input: &str)-> u32{
 
 
 pub fn solve(input: &str)-> Report<u32, u32> {
-    Report{exercise:3, first:first(input), second:second(input)}
+    Report{exercise:4, first:first(input), second:second(input)}
 }
 
 
