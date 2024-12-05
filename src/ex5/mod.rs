@@ -5,71 +5,6 @@ use super::common::Report;
 
 const INPUT: &'static str = include_str!("input.txt");
 
-fn first(rules: &HashMap<u32, Vec<u32>>, numbers: Vec<Vec<u32>>)-> (u32, Vec<Vec<u32>>){
-    let mut result:u32 = 0;
-    let mut incorrect: Vec<Vec<u32>> = Vec::new();
-
-    for line in numbers.iter() {
-        let mut checked: Vec<u32> = Vec::new();
-        let mut valid = true;
-        for number in line.iter() {
-            if let Some(before) = rules.get(number) {
-                if checked.iter().any(|n| before.contains(n)) {
-                    valid = false;
-                    incorrect.push(line.clone());
-                    break;
-                }
-            };
-            checked.push(*number);
-        }
-
-        if valid{
-            result += line[line.len()/2];
-        }
-    }
-
-    (result, incorrect)
-}
-
-fn second(rules: &HashMap<u32, Vec<u32>>, numbers: Vec<Vec<u32>>)-> u32{
-    let mut result:u32 = 0;
-
-    for line in numbers.iter() {
-        let mut new_line: Vec<u32> = Vec::new();
-        for number in line.iter() {
-            let mut inserted= false;
-
-            if let Some(before) = rules.get(number) {
-                let mut insert_at:i32 = -1;
-
-                for idx in 0..new_line.len() {
-                    let element = new_line[idx];
-                    if before.contains(&element) {
-                        insert_at = idx as i32;
-                        break;
-                    }
-                }
-                
-                if insert_at != -1 {
-                    new_line.insert(insert_at as usize, *number);
-                    inserted = true;
-                }
-            }
-
-            if !inserted {
-                new_line.push(*number);
-            }
-        }
-
-        result += new_line[new_line.len()/2];
-    }
-
-   
-
-    result
-}
-
-
 pub fn solve(input: &str)-> Report<u32, u32> {
     let mut rules: HashMap<u32, Vec<u32>> = HashMap::new();
     let mut numbers: Vec<Vec<u32>> = Vec::new();
@@ -93,8 +28,50 @@ pub fn solve(input: &str)-> Report<u32, u32> {
         }
     });
 
-    let (result_first, incorrect) = first(&rules, numbers);
-    Report{exercise:5, first:result_first, second:second(&rules, incorrect)}
+    let mut first_result:u32 = 0;
+    let mut second_result:u32 = 0;
+
+    for line in numbers.iter() {
+        let mut checked: Vec<u32> = Vec::new();
+        let mut valid = true;
+        let mut new_line: Vec<u32> = Vec::new();
+
+        for number in line.iter() {
+            let mut inserted= false;
+
+            if let Some(before) = rules.get(number) {
+                let mut insert_at:i32 = -1;
+
+                for idx in 0..new_line.len() {
+                    let element = new_line[idx];
+                    if before.contains(&element) {
+                        valid = false;
+                        insert_at = idx as i32;
+                        break;
+                    }
+                }
+                
+                if insert_at != -1 {
+                    new_line.insert(insert_at as usize, *number);
+                    inserted = true;
+                }
+            }
+
+            if !inserted {
+                new_line.push(*number);
+            }
+            checked.push(*number);
+
+        }
+
+        if valid{
+            first_result += line[line.len()/2];
+        } else {
+            second_result += new_line[new_line.len()/2];
+        }
+    }
+
+    Report{exercise:5, first:first_result, second:second_result}
 }
 
 
