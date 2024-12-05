@@ -15,12 +15,7 @@ pub fn solve(input: &str)-> Report<u32, u32> {
             let parts = trimmed_line.split("|").map(|n| n.trim().parse::<u32>().unwrap()).collect::<Vec<u32>>();
             let first = parts[0];
             let second = parts[1];
-            if !rules.contains_key(&first) {
-                rules.insert(first, vec![second]);
-            }else {
-                rules.get_mut(&first).unwrap().push(second);
-            }
-
+            rules.entry(first).or_insert(Vec::new()).push(second);
         } else if trimmed_line.contains(",") {
             //numbers
             let numbers_line: Vec<u32> = trimmed_line.split(",").map(|n| n.parse::<u32>().unwrap()).collect();
@@ -31,40 +26,25 @@ pub fn solve(input: &str)-> Report<u32, u32> {
     let mut first_result:u32 = 0;
     let mut second_result:u32 = 0;
 
-    for line in numbers.iter() {
-        let mut checked: Vec<u32> = Vec::new();
-        let mut valid = true;
+    for line in numbers {
         let mut new_line: Vec<u32> = Vec::new();
 
-        for number in line.iter() {
+        for &number in &line {
             let mut inserted= false;
 
-            if let Some(before) = rules.get(number) {
-                let mut insert_at:i32 = -1;
-
-                for idx in 0..new_line.len() {
-                    let element = new_line[idx];
-                    if before.contains(&element) {
-                        valid = false;
-                        insert_at = idx as i32;
-                        break;
-                    }
-                }
-                
-                if insert_at != -1 {
-                    new_line.insert(insert_at as usize, *number);
+            if let Some(before) = rules.get(&number) {
+                if let Some(insert_at) = new_line.iter().position(|&x| before.contains(&x)) {
+                    new_line.insert(insert_at, number);
                     inserted = true;
                 }
             }
 
             if !inserted {
-                new_line.push(*number);
+                new_line.push(number);
             }
-            checked.push(*number);
-
         }
 
-        if valid{
+        if line == new_line{
             first_result += line[line.len()/2];
         } else {
             second_result += new_line[new_line.len()/2];
