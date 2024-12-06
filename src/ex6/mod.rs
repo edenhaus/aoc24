@@ -201,6 +201,6 @@ mod tests {
     fn challenge() {
         let report = solve(&INPUT);
         assert_eq!(report.first, 5208);
-        assert_eq!(report.second, 0);
+        assert_eq!(report.second, 1972);
     }
 }
