@@ -3,7 +3,7 @@ use std::time::Instant;
 use common::Report;
 use regex::Regex;
 
-const INPUT: &'static str = include_str!("input.txt");
+const INPUT: &str = include_str!("input.txt");
 
 fn first(input: &str) -> u32 {
     let re = Regex::new(r"mul\(\s*(\d+)\s*,\s*(\d+)\s*\)").unwrap();
@@ -68,7 +68,7 @@ pub fn solve(input: &str) -> Report<u32, u32> {
 
 pub fn main() {
     let now = Instant::now();
-    let result = solve(&INPUT);
+    let result = solve(INPUT);
     let elapsed = now.elapsed();
     println!("{}, elapsed: {:.2?}", result, elapsed);
 }
@@ -95,7 +95,7 @@ mod tests {
 
     #[test]
     fn challenge() {
-        let report = solve(&INPUT);
+        let report = solve(INPUT);
         assert_eq!(report.first, 161085926);
         assert_eq!(report.second, 82045421);
     }

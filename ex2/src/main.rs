@@ -1,8 +1,8 @@
-use std::time::Instant;
+use std::{cmp::Ordering, time::Instant};
 
 use common::Report;
 
-const INPUT: &'static str = include_str!("input.txt");
+const INPUT: &str = include_str!("input.txt");
 
 fn difference(x: u32, y: u32) -> u32 {
     if x > y {
@@ -12,7 +12,7 @@ fn difference(x: u32, y: u32) -> u32 {
     }
 }
 
-fn check_line(numbers: &Vec<u32>) -> bool {
+fn check_line(numbers: &[u32]) -> bool {
     enum Mode {
         Increasing,
         Decreasing,
@@ -23,24 +23,29 @@ fn check_line(numbers: &Vec<u32>) -> bool {
     for idx in 1..(numbers.len()) {
         let current = numbers[idx];
         let previous = numbers[idx - 1];
-        if current > previous {
-            // Increasing
-            match mode {
-                Mode::Unknown => mode = Mode::Increasing,
-                Mode::Decreasing => return false,
-                _ => {}
+
+        match current.cmp(&previous){
+            Ordering::Less => {
+               // Decreasing
+                match mode {
+                    Mode::Unknown => mode = Mode::Decreasing,
+                    Mode::Increasing => return false,
+                    _ => {}
+                }
             }
-        } else if current < previous {
-            // Decreasing
-            match mode {
-                Mode::Unknown => mode = Mode::Decreasing,
-                Mode::Increasing => return false,
-                _ => {}
+            Ordering::Greater => {
+                // Increasing
+                match mode {
+                    Mode::Unknown => mode = Mode::Increasing,
+                    Mode::Decreasing => return false,
+                    _ => {}
+                }
             }
+            _ => {}
         }
 
         let difference = difference(current, previous);
-        if difference < 1 || difference > 3 {
+        if !(1..=3).contains(&difference) {
             return false;
         }
     }
@@ -82,7 +87,7 @@ pub fn solve(input: &str) -> Report<u32, u32> {
 
 pub fn main() {
     let now = Instant::now();
-    let result = solve(&INPUT);
+    let result = solve(INPUT);
     let elapsed = now.elapsed();
     println!("{}, elapsed: {:.2?}", result, elapsed);
 }
@@ -106,7 +111,7 @@ mod tests {
 
     #[test]
     fn challenge() {
-        let report = solve(&INPUT);
+        let report = solve(INPUT);
         assert_eq!(report.first, 549);
         assert_eq!(report.second, 589);
     }

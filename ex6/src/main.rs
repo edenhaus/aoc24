@@ -1,7 +1,7 @@
 use common::Report;
 use std::{collections::HashSet, fmt, hash::Hash, time::Instant};
 
-const INPUT: &'static str = include_str!("input.txt");
+const INPUT: &str = include_str!("input.txt");
 
 #[derive(PartialEq, Clone)]
 enum Type {
@@ -41,12 +41,12 @@ fn next_position(y: usize, x: usize, direction: &Direction) -> (usize, usize) {
     }
 }
 
-fn check_loop(map: &Vec<Vec<Type>>, y: usize, x: usize, direction: &Direction) -> bool {
-    let mut direction = direction.clone();
+fn check_loop(map: &[Vec<Type>], y: usize, x: usize, direction: &Direction) -> bool {
+    let mut direction = *direction;
     let mut x = x;
     let mut y = y;
     let mut turns: Vec<(usize, usize, Direction)> = Vec::new();
-    let mut map: Vec<Vec<Type>> = map.clone();
+    let mut map: Vec<Vec<Type>> = map.to_owned();
     map[y][x] = Type::Obstacle;
     turns.push((y, x, direction));
     // previous position
@@ -181,7 +181,7 @@ pub fn solve(input: &str) -> Report<u32, u32> {
 
 pub fn main() {
     let now = Instant::now();
-    let result = solve(&INPUT);
+    let result = solve(INPUT);
     let elapsed = now.elapsed();
     println!("{}, elapsed: {:.2?}", result, elapsed);
 }
@@ -209,7 +209,7 @@ mod tests {
 
     #[test]
     fn challenge() {
-        let report = solve(&INPUT);
+        let report = solve(INPUT);
         assert_eq!(report.first, 5208);
         assert_eq!(report.second, 1972);
     }

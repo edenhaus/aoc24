@@ -1,7 +1,7 @@
 use common::Report;
 use std::{collections::HashMap, time::Instant};
 
-const INPUT: &'static str = include_str!("input.txt");
+const INPUT: &str = include_str!("input.txt");
 
 fn abs(x: i64) -> i64 {
     if x > 0 {
@@ -15,8 +15,8 @@ pub fn solve(input: &str) -> Report<i64, i64> {
     let words: Vec<&str> = input.split_whitespace().collect();
     let mut left: Vec<i64> = Vec::new();
     let mut right: Vec<i64> = Vec::new();
-    for number in 0..(words.len()) {
-        let value: i64 = words[number].parse().unwrap();
+    for (number, value) in words.iter().enumerate() {
+        let value: i64 = value.parse().unwrap();
         if number % 2 == 0 {
             left.push(value);
         } else {
@@ -56,7 +56,7 @@ pub fn solve(input: &str) -> Report<i64, i64> {
 
 pub fn main() {
     let now = Instant::now();
-    let result = solve(&INPUT);
+    let result = solve(INPUT);
     let elapsed = now.elapsed();
     println!("{}, elapsed: {:.2?}", result, elapsed);
 }
@@ -80,7 +80,7 @@ mod tests {
 
     #[test]
     fn challenge() {
-        let report = solve(&INPUT);
+        let report = solve(INPUT);
         assert_eq!(report.first, 1151792);
         assert_eq!(report.second, 21790168);
     }

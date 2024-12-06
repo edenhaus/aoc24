@@ -3,7 +3,7 @@ use std::collections::HashMap;
 use common::Report;
 use std::time::Instant;
 
-const INPUT: &'static str = include_str!("input.txt");
+const INPUT: &str = include_str!("input.txt");
 
 pub fn solve(input: &str) -> Report<u32, u32> {
     let mut rules: HashMap<u32, Vec<u32>> = HashMap::new();
@@ -18,7 +18,7 @@ pub fn solve(input: &str) -> Report<u32, u32> {
                 .collect::<Vec<u32>>();
             let first = parts[0];
             let second = parts[1];
-            rules.entry(first).or_insert(Vec::new()).push(second);
+            rules.entry(first).or_default().push(second);
         } else if trimmed_line.contains(",") {
             //numbers
             let numbers_line: Vec<u32> = trimmed_line
@@ -66,7 +66,7 @@ pub fn solve(input: &str) -> Report<u32, u32> {
 
 pub fn main() {
     let now = Instant::now();
-    let result = solve(&INPUT);
+    let result = solve(INPUT);
     let elapsed = now.elapsed();
     println!("{}, elapsed: {:.2?}", result, elapsed);
 }
@@ -112,7 +112,7 @@ mod tests {
 
     #[test]
     fn challenge() {
-        let report = solve(&INPUT);
+        let report = solve(INPUT);
         assert_eq!(report.first, 6041);
         assert_eq!(report.second, 4884);
     }

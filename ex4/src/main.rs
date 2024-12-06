@@ -2,13 +2,13 @@ use std::time::Instant;
 
 use common::Report;
 
-const INPUT: &'static str = include_str!("input.txt");
+const INPUT: &str = include_str!("input.txt");
 
 fn first(input: &str) -> u32 {
     let characters: Vec<Vec<_>> = input.lines().map(|line| line.chars().collect()).collect();
     let mut result: u32 = 0;
 
-    let target = vec!['X', 'M', 'A', 'S'];
+    let target = ['X', 'M', 'A', 'S'];
     let target_minus_1 = target.len() - 1;
 
     for i in 0..characters.len() {
@@ -20,8 +20,8 @@ fn first(input: &str) -> u32 {
             // check right
             if j + target_minus_1 < characters[i].len() {
                 let mut found = true;
-                for t_idx in 1..target.len() {
-                    if characters[i][j + t_idx] != target[t_idx] {
+                for (t_idx, t_value) in target.iter().enumerate() {
+                    if characters[i][j + t_idx] != *t_value {
                         found = false;
                         break;
                     }
@@ -34,8 +34,8 @@ fn first(input: &str) -> u32 {
             //check left
             if j >= target_minus_1 {
                 let mut found = true;
-                for t_idx in 1..target.len() {
-                    if characters[i][j - t_idx] != target[t_idx] {
+                for (t_idx, t_value) in target.iter().enumerate() {
+                    if characters[i][j - t_idx] != *t_value {
                         found = false;
                         break;
                     }
@@ -48,8 +48,8 @@ fn first(input: &str) -> u32 {
             // check down
             if i + target_minus_1 < characters.len() {
                 let mut found = true;
-                for t_idx in 1..target.len() {
-                    if characters[i + t_idx][j] != target[t_idx] {
+                for (t_idx, t_value) in target.iter().enumerate() {
+                    if characters[i + t_idx][j] != *t_value {
                         found = false;
                         break;
                     }
@@ -62,8 +62,8 @@ fn first(input: &str) -> u32 {
             // check up
             if i >= target_minus_1 {
                 let mut found = true;
-                for t_idx in 1..target.len() {
-                    if characters[i - t_idx][j] != target[t_idx] {
+                for (t_idx, t_value) in target.iter().enumerate() {
+                    if characters[i - t_idx][j] != *t_value {
                         found = false;
                         break;
                     }
@@ -76,8 +76,8 @@ fn first(input: &str) -> u32 {
             // check diagonal down right
             if i + target_minus_1 < characters.len() && j + target_minus_1 < characters[i].len() {
                 let mut found = true;
-                for t_idx in 1..target.len() {
-                    if characters[i + t_idx][j + t_idx] != target[t_idx] {
+                for (t_idx, t_value) in target.iter().enumerate() {
+                    if characters[i + t_idx][j + t_idx] != *t_value {
                         found = false;
                         break;
                     }
@@ -90,8 +90,8 @@ fn first(input: &str) -> u32 {
             // check diagonal down left
             if i + target_minus_1 < characters.len() && j >= target_minus_1 {
                 let mut found = true;
-                for t_idx in 1..target.len() {
-                    if characters[i + t_idx][j - t_idx] != target[t_idx] {
+                for (t_idx, t_value) in target.iter().enumerate() {
+                    if characters[i + t_idx][j - t_idx] != *t_value {
                         found = false;
                         break;
                     }
@@ -104,8 +104,8 @@ fn first(input: &str) -> u32 {
             // check diagonal up right
             if i >= target_minus_1 && j + target_minus_1 < characters[i].len() {
                 let mut found = true;
-                for t_idx in 1..target.len() {
-                    if characters[i - t_idx][j + t_idx] != target[t_idx] {
+                for (t_idx, t_value) in target.iter().enumerate() {
+                    if characters[i - t_idx][j + t_idx] != *t_value {
                         found = false;
                         break;
                     }
@@ -118,8 +118,8 @@ fn first(input: &str) -> u32 {
             // check diagonal up left
             if i >= target_minus_1 && j >= target_minus_1 {
                 let mut found = true;
-                for t_idx in 1..target.len() {
-                    if characters[i - t_idx][j - t_idx] != target[t_idx] {
+                for (t_idx, t_value) in target.iter().enumerate() {
+                    if characters[i - t_idx][j - t_idx] != *t_value {
                         found = false;
                         break;
                     }
@@ -171,7 +171,7 @@ pub fn solve(input: &str) -> Report<u32, u32> {
 
 pub fn main() {
     let now = Instant::now();
-    let result = solve(&INPUT);
+    let result = solve(INPUT);
     let elapsed = now.elapsed();
     println!("{}, elapsed: {:.2?}", result, elapsed);
 }
@@ -199,7 +199,7 @@ MXMXAXMASX";
 
     #[test]
     fn challenge() {
-        let report = solve(&INPUT);
+        let report = solve(INPUT);
         assert_eq!(report.first, 2358);
         assert_eq!(report.second, 1737);
     }
