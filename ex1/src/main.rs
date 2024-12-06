@@ -1,5 +1,5 @@
-use std::{collections::HashMap, time::Instant};
 use common::Report;
+use std::{collections::HashMap, time::Instant};
 
 const INPUT: &'static str = include_str!("input.txt");
 
@@ -11,12 +11,12 @@ fn abs(x: i64) -> i64 {
     }
 }
 
-pub fn solve(input: &str)-> Report<i64, i64> {
+pub fn solve(input: &str) -> Report<i64, i64> {
     let words: Vec<&str> = input.split_whitespace().collect();
     let mut left: Vec<i64> = Vec::new();
     let mut right: Vec<i64> = Vec::new();
     for number in 0..(words.len()) {
-        let value:i64 = words[number].parse().unwrap();
+        let value: i64 = words[number].parse().unwrap();
         if number % 2 == 0 {
             left.push(value);
         } else {
@@ -37,29 +37,28 @@ pub fn solve(input: &str)-> Report<i64, i64> {
         if !map_count.contains_key(value) {
             map_count.insert(value, 1);
         } else {
-            let count:i64 = map_count[value];
+            let count: i64 = map_count[value];
             map_count.insert(value, count + 1);
         }
     }
 
     for value in left.iter() {
         if map_count.contains_key(value) {
-            similarity_score += value*map_count[value];
+            similarity_score += value * map_count[value];
         }
     }
     Report {
         exercise: 1,
         first: sum,
-        second: similarity_score
+        second: similarity_score,
     }
 }
-
 
 pub fn main() {
     let now = Instant::now();
     let result = solve(&INPUT);
     let elapsed = now.elapsed();
-    println!("{}, elapsed: {:.2?}",result,elapsed);
+    println!("{}, elapsed: {:.2?}", result, elapsed);
 }
 
 #[cfg(test)]

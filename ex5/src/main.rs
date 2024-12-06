@@ -3,35 +3,40 @@ use std::collections::HashMap;
 use common::Report;
 use std::time::Instant;
 
-
 const INPUT: &'static str = include_str!("input.txt");
 
-pub fn solve(input: &str)-> Report<u32, u32> {
+pub fn solve(input: &str) -> Report<u32, u32> {
     let mut rules: HashMap<u32, Vec<u32>> = HashMap::new();
     let mut numbers: Vec<Vec<u32>> = Vec::new();
     input.lines().for_each(|line| {
         let trimmed_line = line.trim();
         if trimmed_line.contains("|") {
             //rules
-            let parts = trimmed_line.split("|").map(|n| n.trim().parse::<u32>().unwrap()).collect::<Vec<u32>>();
+            let parts = trimmed_line
+                .split("|")
+                .map(|n| n.trim().parse::<u32>().unwrap())
+                .collect::<Vec<u32>>();
             let first = parts[0];
             let second = parts[1];
             rules.entry(first).or_insert(Vec::new()).push(second);
         } else if trimmed_line.contains(",") {
             //numbers
-            let numbers_line: Vec<u32> = trimmed_line.split(",").map(|n| n.parse::<u32>().unwrap()).collect();
+            let numbers_line: Vec<u32> = trimmed_line
+                .split(",")
+                .map(|n| n.parse::<u32>().unwrap())
+                .collect();
             numbers.push(numbers_line);
         }
     });
 
-    let mut first_result:u32 = 0;
-    let mut second_result:u32 = 0;
+    let mut first_result: u32 = 0;
+    let mut second_result: u32 = 0;
 
     for line in numbers {
         let mut new_line: Vec<u32> = Vec::new();
 
         for &number in &line {
-            let mut inserted= false;
+            let mut inserted = false;
 
             if let Some(before) = rules.get(&number) {
                 if let Some(insert_at) = new_line.iter().position(|&x| before.contains(&x)) {
@@ -45,24 +50,26 @@ pub fn solve(input: &str)-> Report<u32, u32> {
             }
         }
 
-        if line == new_line{
-            first_result += line[line.len()/2];
+        if line == new_line {
+            first_result += line[line.len() / 2];
         } else {
-            second_result += new_line[new_line.len()/2];
+            second_result += new_line[new_line.len() / 2];
         }
     }
 
-    Report{exercise:5, first:first_result, second:second_result}
+    Report {
+        exercise: 5,
+        first: first_result,
+        second: second_result,
+    }
 }
-
 
 pub fn main() {
     let now = Instant::now();
     let result = solve(&INPUT);
     let elapsed = now.elapsed();
-    println!("{}, elapsed: {:.2?}",result,elapsed);
+    println!("{}, elapsed: {:.2?}", result, elapsed);
 }
-
 
 #[cfg(test)]
 mod tests {
@@ -102,8 +109,6 @@ mod tests {
         assert_eq!(report.first, 143);
         assert_eq!(report.second, 123);
     }
-
-
 
     #[test]
     fn challenge() {

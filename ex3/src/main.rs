@@ -3,16 +3,20 @@ use std::time::Instant;
 use common::Report;
 use regex::Regex;
 
-
 const INPUT: &'static str = include_str!("input.txt");
 
-fn first(input: &str)-> u32{
+fn first(input: &str) -> u32 {
     let re = Regex::new(r"mul\(\s*(\d+)\s*,\s*(\d+)\s*\)").unwrap();
-    let numbers: Vec<(u32, u32)> = re.captures_iter(input).map(|caps| {
-        let (_, [first,second]) = caps.extract();
-        (first.parse::<u32>().unwrap(), second.parse::<u32>().unwrap())
-    }).collect();
-
+    let numbers: Vec<(u32, u32)> = re
+        .captures_iter(input)
+        .map(|caps| {
+            let (_, [first, second]) = caps.extract();
+            (
+                first.parse::<u32>().unwrap(),
+                second.parse::<u32>().unwrap(),
+            )
+        })
+        .collect();
 
     let mut result = 0;
     for (first_number, second_number) in numbers.iter() {
@@ -21,29 +25,31 @@ fn first(input: &str)-> u32{
     result
 }
 
-fn second(input: &str)-> u32{
+fn second(input: &str) -> u32 {
     let re = Regex::new(r"do\(\)|don't\(\)|mul\(\s*(\d+)\s*,\s*(\d+)\s*\)").unwrap();
     let mut enabled = true;
-    let numbers: Vec<(u32, u32)> = re.captures_iter(input).map(|caps| {
-        if let Some(cmd) = caps.get(0) {
-            match cmd.as_str() {
-                "do()" => enabled = true,
-                "don't()" => enabled = false,
-                _ => {
-                    if enabled {
-                        if let (Some(first), Some(second)) = (caps.get(1), caps.get(2)) {
-                            let first_number = first.as_str().parse::<u32>().unwrap();
-                            let second_number = second.as_str().parse::<u32>().unwrap();
-                            return (first_number, second_number);
+    let numbers: Vec<(u32, u32)> = re
+        .captures_iter(input)
+        .map(|caps| {
+            if let Some(cmd) = caps.get(0) {
+                match cmd.as_str() {
+                    "do()" => enabled = true,
+                    "don't()" => enabled = false,
+                    _ => {
+                        if enabled {
+                            if let (Some(first), Some(second)) = (caps.get(1), caps.get(2)) {
+                                let first_number = first.as_str().parse::<u32>().unwrap();
+                                let second_number = second.as_str().parse::<u32>().unwrap();
+                                return (first_number, second_number);
+                            }
                         }
                     }
                 }
             }
-        } 
-        
-        (0,0)
-    }).collect();
 
+            (0, 0)
+        })
+        .collect();
 
     let mut result = 0;
     for (first_number, second_number) in numbers.iter() {
@@ -52,18 +58,20 @@ fn second(input: &str)-> u32{
     result
 }
 
-
-pub fn solve(input: &str)-> Report<u32, u32> {
-    Report{exercise:3, first:first(input), second:second(input)}
+pub fn solve(input: &str) -> Report<u32, u32> {
+    Report {
+        exercise: 3,
+        first: first(input),
+        second: second(input),
+    }
 }
 
 pub fn main() {
     let now = Instant::now();
     let result = solve(&INPUT);
     let elapsed = now.elapsed();
-    println!("{}, elapsed: {:.2?}",result,elapsed);
+    println!("{}, elapsed: {:.2?}", result, elapsed);
 }
-
 
 #[cfg(test)]
 mod tests {

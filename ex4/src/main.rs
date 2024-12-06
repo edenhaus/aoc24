@@ -2,14 +2,13 @@ use std::time::Instant;
 
 use common::Report;
 
-
 const INPUT: &'static str = include_str!("input.txt");
 
-fn first(input: &str)-> u32{
+fn first(input: &str) -> u32 {
     let characters: Vec<Vec<_>> = input.lines().map(|line| line.chars().collect()).collect();
-    let mut result:u32 = 0;
+    let mut result: u32 = 0;
 
-    let target = vec!['X','M', 'A', 'S'];
+    let target = vec!['X', 'M', 'A', 'S'];
     let target_minus_1 = target.len() - 1;
 
     for i in 0..characters.len() {
@@ -19,10 +18,10 @@ fn first(input: &str)-> u32{
             }
 
             // check right
-            if j+target_minus_1 < characters[i].len() {
+            if j + target_minus_1 < characters[i].len() {
                 let mut found = true;
                 for t_idx in 1..target.len() {
-                    if characters[i][j+t_idx] != target[t_idx] {
+                    if characters[i][j + t_idx] != target[t_idx] {
                         found = false;
                         break;
                     }
@@ -36,7 +35,7 @@ fn first(input: &str)-> u32{
             if j >= target_minus_1 {
                 let mut found = true;
                 for t_idx in 1..target.len() {
-                    if characters[i][j-t_idx] != target[t_idx] {
+                    if characters[i][j - t_idx] != target[t_idx] {
                         found = false;
                         break;
                     }
@@ -45,12 +44,12 @@ fn first(input: &str)-> u32{
                     result += 1;
                 }
             }
-            
+
             // check down
-            if i+target_minus_1 < characters.len() {
+            if i + target_minus_1 < characters.len() {
                 let mut found = true;
                 for t_idx in 1..target.len() {
-                    if characters[i+t_idx][j] != target[t_idx] {
+                    if characters[i + t_idx][j] != target[t_idx] {
                         found = false;
                         break;
                     }
@@ -64,7 +63,7 @@ fn first(input: &str)-> u32{
             if i >= target_minus_1 {
                 let mut found = true;
                 for t_idx in 1..target.len() {
-                    if characters[i-t_idx][j] != target[t_idx] {
+                    if characters[i - t_idx][j] != target[t_idx] {
                         found = false;
                         break;
                     }
@@ -75,10 +74,10 @@ fn first(input: &str)-> u32{
             }
 
             // check diagonal down right
-            if i+target_minus_1 < characters.len() && j+target_minus_1 < characters[i].len() {
+            if i + target_minus_1 < characters.len() && j + target_minus_1 < characters[i].len() {
                 let mut found = true;
                 for t_idx in 1..target.len() {
-                    if characters[i+t_idx][j+t_idx] != target[t_idx] {
+                    if characters[i + t_idx][j + t_idx] != target[t_idx] {
                         found = false;
                         break;
                     }
@@ -89,10 +88,10 @@ fn first(input: &str)-> u32{
             }
 
             // check diagonal down left
-            if i+target_minus_1 < characters.len() && j >= target_minus_1 {
+            if i + target_minus_1 < characters.len() && j >= target_minus_1 {
                 let mut found = true;
                 for t_idx in 1..target.len() {
-                    if characters[i+t_idx][j-t_idx] != target[t_idx] {
+                    if characters[i + t_idx][j - t_idx] != target[t_idx] {
                         found = false;
                         break;
                     }
@@ -103,10 +102,10 @@ fn first(input: &str)-> u32{
             }
 
             // check diagonal up right
-            if i >= target_minus_1 && j+target_minus_1 < characters[i].len() {
+            if i >= target_minus_1 && j + target_minus_1 < characters[i].len() {
                 let mut found = true;
                 for t_idx in 1..target.len() {
-                    if characters[i-t_idx][j+t_idx] != target[t_idx] {
+                    if characters[i - t_idx][j + t_idx] != target[t_idx] {
                         found = false;
                         break;
                     }
@@ -120,7 +119,7 @@ fn first(input: &str)-> u32{
             if i >= target_minus_1 && j >= target_minus_1 {
                 let mut found = true;
                 for t_idx in 1..target.len() {
-                    if characters[i-t_idx][j-t_idx] != target[t_idx] {
+                    if characters[i - t_idx][j - t_idx] != target[t_idx] {
                         found = false;
                         break;
                     }
@@ -135,9 +134,9 @@ fn first(input: &str)-> u32{
     result
 }
 
-fn second(input: &str)-> u32{
+fn second(input: &str) -> u32 {
     let characters: Vec<Vec<_>> = input.lines().map(|line| line.chars().collect()).collect();
-    let mut result:u32 = 0;
+    let mut result: u32 = 0;
 
     for i in 0..characters.len() {
         for j in 0..characters[i].len() {
@@ -145,19 +144,15 @@ fn second(input: &str)-> u32{
                 continue;
             }
 
-            if i+1 >= characters.len() || j+1 >= characters[i].len() || j < 1 || i < 1 {
+            if i + 1 >= characters.len() || j + 1 >= characters[i].len() || j < 1 || i < 1 {
                 continue;
             }
 
-            if (
-                    (characters[i-1][j-1] == 'M' && characters[i+1][j+1] == 'S') ||
-                    (characters[i-1][j-1] == 'S' && characters[i+1][j+1] == 'M')
-                )
-                &&
-                (
-                    (characters[i-1][j+1] == 'M' && characters[i+1][j-1] == 'S') ||
-                    (characters[i-1][j+1] == 'S' && characters[i+1][j-1] == 'M')
-                ) {
+            if ((characters[i - 1][j - 1] == 'M' && characters[i + 1][j + 1] == 'S')
+                || (characters[i - 1][j - 1] == 'S' && characters[i + 1][j + 1] == 'M'))
+                && ((characters[i - 1][j + 1] == 'M' && characters[i + 1][j - 1] == 'S')
+                    || (characters[i - 1][j + 1] == 'S' && characters[i + 1][j - 1] == 'M'))
+            {
                 result += 1;
             }
         }
@@ -166,19 +161,20 @@ fn second(input: &str)-> u32{
     result
 }
 
-
-pub fn solve(input: &str)-> Report<u32, u32> {
-    Report{exercise:4, first:first(input), second:second(input)}
+pub fn solve(input: &str) -> Report<u32, u32> {
+    Report {
+        exercise: 4,
+        first: first(input),
+        second: second(input),
+    }
 }
-
 
 pub fn main() {
     let now = Instant::now();
     let result = solve(&INPUT);
     let elapsed = now.elapsed();
-    println!("{}, elapsed: {:.2?}",result,elapsed);
+    println!("{}, elapsed: {:.2?}", result, elapsed);
 }
-
 
 #[cfg(test)]
 mod tests {
@@ -200,8 +196,6 @@ MXMXAXMASX";
         assert_eq!(report.first, 18);
         assert_eq!(report.second, 9);
     }
-
-  
 
     #[test]
     fn challenge() {
