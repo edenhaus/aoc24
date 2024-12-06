@@ -1,0 +1,9 @@
+[package]
+name = "ex3"
+version.workspace = true
+authors.workspace = true
+edition.workspace = true
+
+[dependencies]
+common = { path = "../common" }
+regex = "1.11.1"

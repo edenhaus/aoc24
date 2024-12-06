@@ -1,4 +1,4 @@
-use super::common::Report;
+use common::Report;
 
 
 const INPUT: &'static str = include_str!("input.txt");
@@ -73,7 +73,7 @@ pub fn solve(input: &str)-> Report<u32, u32> {
 }
 
 
-pub fn run() {
+pub fn main() {
     println!("{}",solve(&INPUT));
 }
 

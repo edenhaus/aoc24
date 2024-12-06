@@ -1,0 +1,8 @@
+[package]
+name = "ex6"
+version.workspace = true
+authors.workspace = true
+edition.workspace = true
+
+[dependencies]
+common = { path = "../common" }

@@ -1,5 +1,5 @@
 use std::collections::HashMap;
-use super::common::Report;
+use common::Report;
 
 const INPUT: &'static str = include_str!("input.txt");
 
@@ -55,7 +55,7 @@ pub fn solve(input: &str)-> Report<i64, i64> {
 }
 
 
-pub fn run() {
+pub fn main() {
     println!("{}",solve(&INPUT));
 }
 

@@ -1,4 +1,4 @@
-use super::common::Report;
+use common::Report;
 use regex::Regex;
 
 
@@ -61,7 +61,7 @@ pub fn solve(input: &str)-> Report<u32, u32> {
 }
 
 
-pub fn run() {
+pub fn main() {
     println!("{}",solve(&INPUT));
 }
 

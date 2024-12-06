@@ -12,10 +12,50 @@ dependencies = [
 ]
 
 [[package]]
-name = "aoc24"
+name = "common"
+version = "0.1.0"
+
+[[package]]
+name = "ex1"
 version = "0.1.0"
 dependencies = [
+ "common",
+]
+
+[[package]]
+name = "ex2"
+version = "0.1.0"
+dependencies = [
+ "common",
+]
+
+[[package]]
+name = "ex3"
+version = "0.1.0"
+dependencies = [
+ "common",
  "regex",
+]
+
+[[package]]
+name = "ex4"
+version = "0.1.0"
+dependencies = [
+ "common",
+]
+
+[[package]]
+name = "ex5"
+version = "0.1.0"
+dependencies = [
+ "common",
+]
+
+[[package]]
+name = "ex6"
+version = "0.1.0"
+dependencies = [
+ "common",
 ]
 
 [[package]]

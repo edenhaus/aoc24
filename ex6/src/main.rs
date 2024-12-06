@@ -1,4 +1,4 @@
-use super::common::Report;
+use common::Report;
 use std::{collections::HashSet, fmt, hash::Hash, time::Instant};
 
 
@@ -166,7 +166,7 @@ pub fn solve(input: &str)-> Report<u32, u32> {
 }
 
 
-pub fn run() {
+pub fn main() {
     let now = Instant::now();
     let result = solve(&INPUT);
     let elapsed = now.elapsed();

@@ -1,8 +1,12 @@
-[package]
-name = "aoc24"
-version = "0.1.0"
-edition = "2021"
-authors = ["Robert Resch <robert@resch.dev>"]
+[workspace]
+members = [
+    "common",
+	"ex*",
+]
+resolver = "2"
 
-[dependencies]
-regex = "1.11.1"
+
+[workspace.package]
+version = "0.1.0"
+authors = ["Robert Resch <robert@resch.dev>"]
+edition = "2021"
