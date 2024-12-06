@@ -24,9 +24,9 @@ fn check_line(numbers: &[u32]) -> bool {
         let current = numbers[idx];
         let previous = numbers[idx - 1];
 
-        match current.cmp(&previous){
+        match current.cmp(&previous) {
             Ordering::Less => {
-               // Decreasing
+                // Decreasing
                 match mode {
                     Mode::Unknown => mode = Mode::Decreasing,
                     Mode::Increasing => return false,
