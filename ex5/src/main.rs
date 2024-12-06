@@ -58,9 +58,9 @@ pub fn solve(input: &str)-> Report<u32, u32> {
 
 pub fn main() {
     let now = Instant::now();
-    println!("{}",solve(&INPUT));
+    let result = solve(&INPUT);
     let elapsed = now.elapsed();
-    println!("Elapsed: {:.2?}", elapsed);
+    println!("{}, elapsed: {:.2?}",result,elapsed);
 }
 
 

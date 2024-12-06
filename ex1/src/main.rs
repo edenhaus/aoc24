@@ -1,4 +1,4 @@
-use std::collections::HashMap;
+use std::{collections::HashMap, time::Instant};
 use common::Report;
 
 const INPUT: &'static str = include_str!("input.txt");
@@ -56,7 +56,10 @@ pub fn solve(input: &str)-> Report<i64, i64> {
 
 
 pub fn main() {
-    println!("{}",solve(&INPUT));
+    let now = Instant::now();
+    let result = solve(&INPUT);
+    let elapsed = now.elapsed();
+    println!("{}, elapsed: {:.2?}",result,elapsed);
 }
 
 #[cfg(test)]

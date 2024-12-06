@@ -1,3 +1,5 @@
+use std::time::Instant;
+
 use common::Report;
 
 
@@ -171,7 +173,10 @@ pub fn solve(input: &str)-> Report<u32, u32> {
 
 
 pub fn main() {
-    println!("{}",solve(&INPUT));
+    let now = Instant::now();
+    let result = solve(&INPUT);
+    let elapsed = now.elapsed();
+    println!("{}, elapsed: {:.2?}",result,elapsed);
 }
 
 

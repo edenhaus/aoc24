@@ -1,3 +1,5 @@
+use std::time::Instant;
+
 use common::Report;
 use regex::Regex;
 
@@ -23,11 +25,6 @@ fn second(input: &str)-> u32{
     let re = Regex::new(r"do\(\)|don't\(\)|mul\(\s*(\d+)\s*,\s*(\d+)\s*\)").unwrap();
     let mut enabled = true;
     let numbers: Vec<(u32, u32)> = re.captures_iter(input).map(|caps| {
-        for cap in caps.iter() {
-
-            println!("{:?}", cap);
-        }
-
         if let Some(cmd) = caps.get(0) {
             match cmd.as_str() {
                 "do()" => enabled = true,
@@ -60,9 +57,11 @@ pub fn solve(input: &str)-> Report<u32, u32> {
     Report{exercise:3, first:first(input), second:second(input)}
 }
 
-
 pub fn main() {
-    println!("{}",solve(&INPUT));
+    let now = Instant::now();
+    let result = solve(&INPUT);
+    let elapsed = now.elapsed();
+    println!("{}, elapsed: {:.2?}",result,elapsed);
 }
 
 
