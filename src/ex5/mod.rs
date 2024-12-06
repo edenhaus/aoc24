@@ -1,6 +1,7 @@
 use std::collections::HashMap;
 
 use super::common::Report;
+use std::time::Instant;
 
 
 const INPUT: &'static str = include_str!("input.txt");
@@ -56,7 +57,10 @@ pub fn solve(input: &str)-> Report<u32, u32> {
 
 
 pub fn run() {
+    let now = Instant::now();
     println!("{}",solve(&INPUT));
+    let elapsed = now.elapsed();
+    println!("Elapsed: {:.2?}", elapsed);
 }
 
 
