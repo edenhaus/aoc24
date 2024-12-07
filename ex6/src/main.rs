@@ -46,15 +46,25 @@ fn check_loop(map: &[Vec<Type>], y: usize, x: usize, direction: &Direction) -> b
     let mut x = x;
     let mut y = y;
     let mut turns: Vec<(usize, usize, Direction)> = Vec::new();
-    let mut map: Vec<Vec<Type>> = map.to_owned();
-    map[y][x] = Type::Obstacle;
-    turns.push((y, x, direction));
+    let obstacle = (y, x);
     // previous position
-    (y, x) = match direction {
-        Direction::Up => (y + 1, x),
-        Direction::Down => (y - 1, x),
-        Direction::Left => (y, x + 1),
-        Direction::Right => (y, x - 1),
+    match direction {
+        Direction::Up =>{
+            y += 1;
+            direction = Direction::Right;
+        },
+        Direction::Down =>{
+            y -= 1;
+            direction = Direction::Left;
+        },
+        Direction::Left =>{
+            x += 1;
+            direction = Direction::Up;
+        },
+        Direction::Right =>{
+            x -= 1;
+            direction = Direction::Down;
+        },
     };
     let last_y = map.len() - 1;
     let last_x = map[0].len() - 1;
@@ -64,20 +74,13 @@ fn check_loop(map: &[Vec<Type>], y: usize, x: usize, direction: &Direction) -> b
             return true;
         }
         match map[y][x] {
-            Type::NotSeen => {
-                if direction == Direction::Up || direction == Direction::Down {
-                    map[y][x] = Type::SeenUpDown;
-                } else {
-                    map[y][x] = Type::SeenLeftRight;
-                }
-            }
             Type::Obstacle => {
                 return false;
             }
             _ => {}
         }
         let next = next_position(y, x, &direction);
-        if map[next.0][next.1] == Type::Obstacle {
+        if map[next.0][next.1] == Type::Obstacle || (next.0, next.1) == obstacle {
             turns.push((y, x, direction));
             match direction {
                 Direction::Up => direction = Direction::Right,
