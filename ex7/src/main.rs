@@ -70,7 +70,7 @@ pub fn solve(input: &str) -> Report<u64, u64> {
                 .next()
                 .unwrap()
                 .trim()
-                .split(" ")
+                .split_whitespace()
                 .map(|n| n.parse::<u64>().unwrap())
                 .collect::<Vec<u64>>();
             (target, numbers)
