@@ -37,24 +37,24 @@ fn calculate(target: u64, calculated: u64, numbers: &[u64], allow_concatenation:
     false
 }
 
-fn first(values: &[(u64, Vec<u64>)]) -> (u64, Vec<(u64, Vec<u64>)>) {
+fn first(values: Vec<(u64, Vec<u64>)>) -> (u64, Vec<(u64, Vec<u64>)>) {
     let mut sum: u64 = 0;
     let mut for_second: Vec<(u64, Vec<u64>)> = Vec::new();
-    for (target, numbers) in values.iter() {
-        if calculate(*target, 0, numbers, false) {
-            sum += *target;
+    for (target, numbers) in values {
+        if calculate(target, 0, &numbers, false) {
+            sum += target;
         } else {
-            for_second.push((*target, numbers.to_owned()));
+            for_second.push((target, numbers));
         }
     }
     (sum, for_second)
 }
 
-fn second(values: &[(u64, Vec<u64>)]) -> u64 {
+fn second(values: Vec<(u64, Vec<u64>)>) -> u64 {
     let mut sum: u64 = 0;
-    for (target, numbers) in values.iter() {
-        if calculate(*target, 0, numbers, true) {
-            sum += *target;
+    for (target, numbers) in values {
+        if calculate(target, 0, &numbers, true) {
+            sum += target;
         }
     }
     sum
@@ -77,11 +77,11 @@ pub fn solve(input: &str) -> Report<u64, u64> {
         })
         .collect::<Vec<(u64, Vec<u64>)>>();
 
-    let (first, for_second) = first(&values);
+    let (first, for_second) = first(values);
     Report {
         exercise: 6,
         first,
-        second: first + second(&for_second),
+        second: first + second(for_second),
     }
 }
 
