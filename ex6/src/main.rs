@@ -49,22 +49,22 @@ fn check_loop(map: &[Vec<Type>], y: usize, x: usize, direction: &Direction) -> b
     let obstacle = (y, x);
     // previous position
     match direction {
-        Direction::Up =>{
+        Direction::Up => {
             y += 1;
             direction = Direction::Right;
-        },
-        Direction::Down =>{
+        }
+        Direction::Down => {
             y -= 1;
             direction = Direction::Left;
-        },
-        Direction::Left =>{
+        }
+        Direction::Left => {
             x += 1;
             direction = Direction::Up;
-        },
-        Direction::Right =>{
+        }
+        Direction::Right => {
             x -= 1;
             direction = Direction::Down;
-        },
+        }
     };
     let last_y = map.len() - 1;
     let last_x = map[0].len() - 1;

@@ -79,7 +79,7 @@ pub fn solve(input: &str) -> Report<u64, u64> {
 
     let (first, for_second) = first(values);
     Report {
-        exercise: 6,
+        exercise: 7,
         first,
         second: first + second(for_second),
     }
